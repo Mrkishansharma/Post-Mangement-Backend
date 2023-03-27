@@ -46,6 +46,30 @@ postRouter.get('/',async (req,res)=>{
     }
 })
 
+
+
+
+postRouter.get('/getOne/:ID', async (req,res)=>{
+    const {userId} = req.body
+    const {ID} = req.params
+    const payload = req.body
+
+    try {
+
+        const post = await PostModel.findById({_id:ID})
+        if(post.userId === userId){
+            res.status(200).send(post)
+        }else{
+            res.status(400).send({"error":"You can able to see post of other user"})
+        }
+        
+    } catch (error) {
+        res.status(400).send({error:error.message})
+    }
+})
+
+
+
 postRouter.get('/top',async (req,res)=>{
     const {userId} = req.body;
 
